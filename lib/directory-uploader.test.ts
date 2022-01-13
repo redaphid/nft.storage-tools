@@ -26,12 +26,23 @@ describe("Upload Directory", () => {
           });
           describe("when the store method resolves", () => {
             beforeEach(async () => {
-              client.store.mockResolvedValue({ ipnft: "ipnft", url: "url" });
+              client.store.mockResolvedValue({ ipnft: "frankenstein-nft", url: "frankenstein-url" });
               await uploaderPromise;
             });
-            it("should update us with the progress", () => {
-              expect(progressFn).toHaveBeenCalled();
-              expect(progressFn).toHaveBeenCalledWith({ ipnft: "ipnft", url: "url" });
+            it("should update us with the progress re: the frankenstein file", () => {
+              expect(progressFn.mock.calls).toEqual(
+                expect.arrayContaining([
+                  expect.arrayContaining([
+                    expect.objectContaining({
+                      fileName: "test/data/1-file-directory/frankenstein.txt",
+                    }),
+                  ]),
+                ]),
+              );
+              // expect(progressFn).toHaveBeenCalledWith({
+              //   ipnft: "frankenstein-nft",
+              //   url: "frankenstein-url",
+              // });
             });
           });
         });
