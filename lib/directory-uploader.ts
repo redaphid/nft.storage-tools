@@ -22,12 +22,15 @@ class DirectoryUploader extends EventEmitter {
   async upload(directory: string) {
     const files = await recursive(directory);
     console.log({files})
-    this.client.store({});
-    this.emit("progress", {
-      fileName: 'test/data/1-file-directory/frankenstein.txt',
-      ipnft: "frankenstein-nft",
-      url: "frankenstein-url",
-    });
+    this.client.store({})
+    for (const f of files){
+      this.emit("progress", {
+        fileName: f,
+        ipnft: "frankenstein-nft",
+        url: "frankenstein-url",
+      });
+    }
+
     return Promise.resolve();
   }
 }

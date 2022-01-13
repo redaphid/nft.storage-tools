@@ -35,14 +35,23 @@ describe("Upload Directory", () => {
                   expect.arrayContaining([
                     expect.objectContaining({
                       fileName: "test/data/1-file-directory/frankenstein.txt",
+                      ipnft: "frankenstein-nft",
+                      url: "frankenstein-url",
                     }),
                   ]),
                 ]),
               );
-              // expect(progressFn).toHaveBeenCalledWith({
-              //   ipnft: "frankenstein-nft",
-              //   url: "frankenstein-url",
-              // });
+            });
+            it("should update us with the progress re: the deep-sibling-2.txt file", () => {
+              expect(progressFn.mock.calls).toEqual(
+                expect.arrayContaining([
+                  expect.arrayContaining([
+                    expect.objectContaining({
+                      fileName: "test/data/4-nested/2-nested/deep-sibling-2.txt",
+                    }),
+                  ]),
+                ]),
+              );
             });
           });
         });
