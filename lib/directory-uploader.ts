@@ -23,13 +23,13 @@ class DirectoryUploader extends EventEmitter {
     const files = await recursive(directory);
     console.log({files})
     this.client.store({})
-    for (const f of files){
-      const progressInfo:NFTResponse ={
-        fileName: f,
+    for (const fileName of files){
+      const fileInfo:NFTResponse ={
+        fileName,
         ipnft:"frankenstein-nft",
         url:"frankenstein-url",        
       }
-      this.emit("file-completed", progressInfo);
+      this.emit("file-completed", fileInfo);
     }
 
     return Promise.resolve();
