@@ -8,6 +8,7 @@ class DirectoryUploader extends EventEmitter {
   }
   upload(directory: string) {
     this.client.store({});
+    this.emit("progress", {})
     return Promise.resolve();
   }
 }
