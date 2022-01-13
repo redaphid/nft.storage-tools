@@ -1,5 +1,9 @@
+
+interface NFTStorage {
+  store(fileProps: any): Promise<any>;
+}
 class DirectoryUploader {
-    constructor(directory, bucket, options) {
+    constructor(private client: NFTStorage) {
         // this.directory = directory;
         // this.bucket = bucket;
         // this.options = options;
