@@ -13,7 +13,10 @@ describe("Upload Directory", () => {
       expect(uploader).toBeDefined();
     });
     describe("when upload is called with a directory", () => {
+      let progressFn
       beforeEach(async () => {
+        progressFn = jest.fn();
+        uploader.on("progress", progressFn)
         await uploader.upload("/tmp");
       })
       it("should resolve a promise", () => {
@@ -21,6 +24,9 @@ describe("Upload Directory", () => {
       });
       it("should have called the nftstorage client", () => {
         expect(client.store).toHaveBeenCalled();
+      })
+      it("should have updated us with some progress", () => {
+        expect(progressFn).toHaveBeenCalled();
       })
     });
   });
