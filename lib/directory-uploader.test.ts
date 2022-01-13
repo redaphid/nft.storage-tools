@@ -16,9 +16,12 @@ describe("Upload Directory", () => {
       beforeEach(async () => {
         await uploader.upload("/tmp");
       })
-      it("should resove a promise", () => {
+      it("should resolve a promise", () => {
         expect(uploader).toBeDefined();
       });
+      it("should have called the nftstorage client", () => {
+        expect(client.store).toHaveBeenCalled();
+      })
     });
   });
 });
