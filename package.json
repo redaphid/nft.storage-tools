@@ -6,7 +6,7 @@
   "main": "index.js",
   "type": "module",
   "engine": {
-    "node": ">=16.0.0"
+    "node": ">=17.0.0"
   },
   "scripts": {
     "test": "jest",

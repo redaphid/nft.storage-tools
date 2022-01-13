@@ -2,5 +2,5 @@
 export default {
   preset: "ts-jest",
   testEnvironment: "node",
-  // transformIgnorePatterns: [],
+  resolver: "./test/resolve-modules.cjs",
 }
