@@ -2,6 +2,10 @@ import { EventEmitter } from "events";
 interface NFTClient {
   store(fileProps: any): Promise<any>;
 }
+interface NFTResponse {
+  ipnft: string;
+  url: string;
+}
 class DirectoryUploader extends EventEmitter {
   constructor(private client: NFTClient) {
     super();

@@ -41,7 +41,7 @@ const storeFiles = async ({ endpoint, token, path, maxConcurrentUploads }) => {
       },
     };
     const logData = (newTimeout) => {
-      console.clear();
+      // console.clear();
       console.table({
         newTimeout,
         fileName: file,
@@ -59,7 +59,8 @@ const storeFiles = async ({ endpoint, token, path, maxConcurrentUploads }) => {
 
 const retryClientStore = async (client, fileProps, timeToWait = 1) => {
   try {
-    await client.store(fileProps);
+    const response = await client.store(fileProps);
+    console.log({response})
     return timeToWait/2;
 
   } catch (e) {
