@@ -1,11 +1,11 @@
 import { readFile } from "fs/promises";
 import { promisify } from "util";
-import chalk from "chalk";
+// import chalk from "chalk";
 // import {partial} from "ramda";
 import { Semaphore } from "await-semaphore";
 import recursive from "recursive-readdir";
 import { partial } from "ramda";
-// import { NFTStorage, Blob } from "nft.storage";
+import { NFTStorage, Blob } from "nft.storage";
 
 const timeout = promisify(setTimeout);
 
@@ -50,7 +50,7 @@ const retryClientStore = async (client, maxTimeout, timeToWait, file, fileName) 
 
     if (timeToWait > maxTimeout) timeToWait = maxTimeout * (1 + Math.random());
 
-    console.error(chalk.red(`Error: ${e.message}. will retry uploading ${fileName} in ${timeToWait}ms`));
+    // console.error(chalk.red(`Error: ${e.message}. will retry uploading ${fileName} in ${timeToWait}ms`));
     await timeout(timeToWait);
     return retryClientStore(client, maxTimeout, timeToWait, file, fileName);
   }
