@@ -14,10 +14,10 @@ describe("Upload Directory", () => {
     });
     describe("when listening for file completed events", () => {
       describe("", () => {
-        let progressFn;
+        let fileInfoFn;
         beforeEach(() => {
-          progressFn = jest.fn();
-          uploader.on("file-completed", progressFn);
+          fileInfoFn = jest.fn();
+          uploader.on("file-completed", fileInfoFn);
         });
         describe("when uploading a directory", () => {
           let uploaderPromise;
@@ -30,14 +30,14 @@ describe("Upload Directory", () => {
               await uploaderPromise;
             });
             it("should tell us the frankenstein file is complete, w/the nft info", () => {
-              expect(progressFn).toHaveBeenCalledWith({
+              expect(fileInfoFn).toHaveBeenCalledWith({
                 fileName: "test/data/1-file-directory/frankenstein.txt",
                 ipnft: "frankenstein-nft",
                 url: "frankenstein-url",
               });
             });
             it("should tell us the deep-sibling-2.txt file is complete, w/the nft info", () => {
-              expect(progressFn).toHaveBeenCalledWith({
+              expect(fileInfoFn).toHaveBeenCalledWith({
                 fileName: "test/data/4-nested/2-nested/deep-sibling-2.txt",
                 ipnft: "deep-sibling-2-nft",
                 url: "deep-sibling-2-url",
