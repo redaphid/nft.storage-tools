@@ -1,14 +1,13 @@
 
-interface NFTStorage {
+interface NFTClient {
   store(fileProps: any): Promise<any>;
 }
 class DirectoryUploader {
-    constructor(private client: NFTStorage) {
-        // this.directory = directory;
-        // this.bucket = bucket;
-        // this.options = options;
+    constructor(private client: NFTClient) {
     }
-    upload() {
+    upload(directory:string) {
+      return Promise.resolve();
+    }
     //     return __awaiter(this, void 0, void 0, function* () {
     //         const { directory, bucket, options } = this;
     //         const files = yield readdir(directory);
@@ -29,6 +28,5 @@ class DirectoryUploader {
     //         return Promise.all(uploadPromises);
     //     });
     // }
-}
 }
 export {DirectoryUploader}

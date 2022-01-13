@@ -1,8 +1,5 @@
 import { DirectoryUploader } from "./directory-uploader";
 describe("Upload Directory", () => {
-  it("should exist", () => {
-    expect(DirectoryUploader).toBeDefined();
-  });
   describe("when created with a nftstorage client", () => {
     let uploader: DirectoryUploader;
     let client: any;
@@ -12,9 +9,16 @@ describe("Upload Directory", () => {
       };
       uploader = new DirectoryUploader(client);
     });
-    describe("when upload is called with", () => {});
-    it("still should exist", () => {
+    it("should exist", () => {
       expect(uploader).toBeDefined();
+    });
+    describe("when upload is called with a directory", () => {
+      beforeEach(async () => {
+        await uploader.upload("/tmp");
+      })
+      it("should resove a promise", () => {
+        expect(uploader).toBeDefined();
+      });
     });
   });
 });
