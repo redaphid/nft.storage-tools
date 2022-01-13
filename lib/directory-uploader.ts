@@ -3,8 +3,7 @@ import recursive from "recursive-readdir";
 interface NFTClient {
   store(fileProps: any): Promise<any>;
 }
-interface ProgressInfo extends NFTResponse {
-  fileName: string,
+interface ProgressInfo {
   filesFinished: number,
   filesTotal: number,
   filePercent: number
@@ -12,6 +11,7 @@ interface ProgressInfo extends NFTResponse {
   
 }
 interface NFTResponse {
+  fileName: string,
   ipnft: string;
   url: string;
 }
@@ -24,11 +24,12 @@ class DirectoryUploader extends EventEmitter {
     console.log({files})
     this.client.store({})
     for (const f of files){
-      this.emit("progress", {
+      const progressInfo:NFTResponse ={
         fileName: f,
-        ipnft: "frankenstein-nft",
-        url: "frankenstein-url",
-      });
+        ipnft:"frankenstein-nft",
+        url:"frankenstein-url",        
+      }
+      this.emit("file-completed", progressInfo);
     }
 
     return Promise.resolve();
