@@ -2,5 +2,5 @@
 export default {
   preset: "ts-jest",
   testEnvironment: "node",
-  resolver: "./test/resolve-modules.cjs",
+  // resolver: "./test/resolve-modules.cjs",
 }

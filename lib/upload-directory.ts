@@ -8,7 +8,7 @@ import { partial } from "ramda";
 // import { NFTStorage, Blob } from "nft.storage";
 const timeout = promisify(setTimeout);
 
-export const uploadDirectory = async ({ NFTStorage, endpoint, token, path, maxConcurrentUploads, maxTimeout = 60000 }) => {
+export const uploadDirectory = async ({endpoint, token, path, maxConcurrentUploads, maxTimeout = 60000 }) => {
   const startTime = Date.now();  
   const limiter = new Semaphore(maxConcurrentUploads);
   const client = new NFTStorage({ endpoint, token });

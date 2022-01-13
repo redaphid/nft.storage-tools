@@ -1,4 +1,6 @@
+const {memoizeWith, identity} = require("ramda")
 module.exports = (request, options) => {
-	console.log(`request: ${request}`);
-	return require.resolve(request);
+	const memoized = memoizeWith(identity, require.resolve)
+	console.log({request, options});
+	return memoized(request, options)
 };
