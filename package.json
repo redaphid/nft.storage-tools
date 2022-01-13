@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "jest",
-    "test-watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
   },
   "author": "Alan Shaw",
   "license": "(Apache-2.0 AND MIT)",
