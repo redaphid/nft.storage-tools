@@ -5,11 +5,10 @@ import { promisify } from "util";
 import { Semaphore } from "await-semaphore";
 import recursive from "recursive-readdir";
 import { partial } from "ramda";
-import { NFTStorage, Blob } from "nft.storage";
-
+// import { NFTStorage, Blob } from "nft.storage";
 const timeout = promisify(setTimeout);
 
-export const uploadDirectory = async ({ endpoint, token, path, maxConcurrentUploads, maxTimeout = 60000 }) => {
+export const uploadDirectory = async ({ NFTStorage, endpoint, token, path, maxConcurrentUploads, maxTimeout = 60000 }) => {
   const startTime = Date.now();  
   const limiter = new Semaphore(maxConcurrentUploads);
   const client = new NFTStorage({ endpoint, token });
@@ -43,7 +42,7 @@ export const uploadDirectory = async ({ endpoint, token, path, maxConcurrentUplo
 
 const retryClientStore = async (client, maxTimeout, timeToWait, file, fileName) => {
   try {
-    await client.storeBlob(new Blob(file));
+    await client.storeBlob();
     return Math.random() > 0.90 ? timeToWait/2 : timeToWait; // speed up uploads about 10% of the time
   } catch (e) {
     timeToWait *= 1 + Math.random(); //stagger the time between retries
