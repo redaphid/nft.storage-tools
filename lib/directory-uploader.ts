@@ -24,18 +24,15 @@ class DirectoryUploader extends EventEmitter {
   }
   async upload(directory: string) {
     const files = await recursive(directory);
+    console.log({files})
     for (const fileName of files) {
       const token = await this.client.store({
         name: fileName,
         description:"whatever",
         image: 'hey'
       });
+      console.log({token})
       const event = {...token, fileName};
-      const fileInfo: NFTResponse = {
-        fileName,
-        ipnft: "frankenstein-nft",
-        url: "frankenstein-url",
-      };
       this.emit("file-completed", event);
     }
 
