@@ -25,26 +25,41 @@ describe("Upload Directory", () => {
         });
         describe("when the store method resolves", () => {
           beforeEach(async () => {
-            client.store.mockResolvedValue({ ipnft: "frankenstein-nft", url: "frankenstein-url" });
-            // client.store.mockImplementationOnce(() => {
-            //   return Promise.resolve({ ipnft: "frankenstein-nft", url: "frankenstein-url" })
-            // })
+            // client.store.mockResolvedValue({ ipnft: "frankenstein-nft", url: "frankenstein-url" });
+            client.store.mockImplementation((req) => {
+              switch (req.name) {
+                case "test/data/1-file-directory/frankenstein.txt":
+                  return Promise.resolve({ 
+                    ipnft: "frankenstein-nft", url: "frankenstein-url"
+                 });
+                case "test/data/4-nested/2-nested/deep-sibling-2.txt":
+                  return Promise.resolve({
+                    ipnft: "deep-sibling-2-nft",
+                    url: "deep-sibling-2-url"
+                });
+              }
+              return Promise.resolve({});
+            });
 
             await uploaderPromise;
           });
           it("should tell us the frankenstein file is complete, w/the nft info", () => {
-            expect(fileInfoFn).toHaveBeenCalledWith({
-              fileName: "test/data/1-file-directory/frankenstein.txt",
-              ipnft: "frankenstein-nft",
-              url: "frankenstein-url",
-            });
+            expect(fileInfoFn).toHaveBeenCalledWith(
+              expect.objectContaining({
+                fileName: "test/data/1-file-directory/frankenstein.txt",
+                ipnft: "frankenstein-nft",
+                url: "frankenstein-url",
+              }),
+            );
           });
           it("should tell us the deep-sibling-2.txt file is complete, w/the nft info", () => {
-            expect(fileInfoFn).toHaveBeenCalledWith({
-              fileName: "test/data/4-nested/2-nested/deep-sibling-2.txt",
-              ipnft: "deep-sibling-2-nft",
-              url: "deep-sibling-2-url",
-            });
+            expect(fileInfoFn).toHaveBeenCalledWith(
+              expect.objectContaining({
+                fileName: "test/data/4-nested/2-nested/deep-sibling-2.txt",
+                ipnft: "deep-sibling-2-nft",
+                url: "deep-sibling-2-url",
+              }),
+            );
           });
         });
       });
