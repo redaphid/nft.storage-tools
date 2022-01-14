@@ -36,7 +36,7 @@ class DirectoryUploader extends EventEmitter {
           this.emit("file-completed", event);
         });
     });
-    return Promise.all(thingsToUpload);
+    return await Promise.all(thingsToUpload);
   }
 }
 export { DirectoryUploader };
