@@ -3,8 +3,13 @@ import recursive from "recursive-readdir";
 import { TokenInput, Token } from "nft.storage/dist/src/token";
 import { File, NFTStorage } from "nft.storage";
 
+interface FileTokenInput extends TokenInput {
+  properties: {
+    file: typeof File;
+  }
+}
 interface NFTClient {
-  store(token: TokenInput): Promise<Token<TokenInput>>;
+  store(token: FileTokenInput): Promise<Token<TokenInput>>;
 }
 
 interface ProgressInfo {
@@ -12,11 +17,6 @@ interface ProgressInfo {
   filesTotal: number;
   filePercent: number;
   filesPerSecond: number;
-}
-interface NFTResponse {
-  fileName: string;
-  ipnft: string;
-  url: string;
 }
 class DirectoryUploader extends EventEmitter {
   constructor(private client: NFTClient) {
