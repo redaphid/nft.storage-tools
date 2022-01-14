@@ -28,7 +28,6 @@ describe("Upload Directory", () => {
         describe("when the store method resolves for each file", () => {
           beforeEach(() => {
             client.store.mockImplementation((req) => {
-              console.log(req);
               switch (req.name) {
                 case "test/data/1-file-directory/frankenstein.txt":
                   return Promise.resolve({
@@ -68,15 +67,12 @@ describe("Upload Directory", () => {
             });
           });
         });
-        describe("when the store method hasn't resolved all the promises yet", () => {
-          let frankenPromise: Promise<any>;
-          beforeEach(async () => {
-            client.store.mockImplementation((req) => {
+        describe("when the store method hasn't resolved all the promises yet", () => {          
+          let frankenPromise;
+          beforeEach(async () => {            
+            uploadPromise = client.store.mockImplementation((req) => {
               if (req.name === "test/data/1-file-directory/frankenstein.txt") {
-                frankenPromise = Promise.resolve({
-                  ipnft: "frankenstein-nft",
-                  url: "frankenstein-url",
-                });
+                frankenPromise = new Promise(jest.fn())
               }
               return Promise.resolve({});
             });

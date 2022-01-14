@@ -23,15 +23,13 @@ class DirectoryUploader extends EventEmitter {
     super();
   }
   async upload(directory: string) {
-    const files = await recursive(directory);
-    console.log({files})
+    const files = await recursive(directory);    
     for (const fileName of files) {
       const token = await this.client.store({
         name: fileName,
         description:"whatever",
         image: 'hey'
       });
-      console.log({token})
       const event = {...token, fileName};
       this.emit("file-completed", event);
     }
