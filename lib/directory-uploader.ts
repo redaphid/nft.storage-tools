@@ -29,10 +29,10 @@ class DirectoryUploader extends EventEmitter {
       return this.client
         .store({
           name: fileName,
-          description: "whatever",
+          description: `uploaded from ${fileName}`,
           image: new File([await readFile(fileName)], fileName, { type: "image/jpg" }),
           properties: {
-            file: new File([await readFile(fileName)], fileName),
+            file: new File([await readFile(fileName, "utf8")], fileName, { type: "text/plain" }),
           },
         })
         .then((token) => {

@@ -18,18 +18,10 @@ import { NFTStorage, File } from "nft.storage";
 const timeout = promisify(setTimeout);
 
 const MAX_TIMEOUT = 15000;
-//lots of dummy data to test the uploader
-const storeFiles = async ({ endpoint, token, path, maxConcurrentUploads }) => {
-  const startTime = Date.now();
-
-  const image = new File([await readFile(process.cwd() + "/status.js")], "status.js", { type: "image/jpg" });
-  const limiter = new Semaphore(maxConcurrentUploads);
+const storeFiles = async ({ endpoint, token, path, maxConcurrentUploads }) => {  
+  
   const client = new NFTStorage({ endpoint, token });
   const uploader = new DirectoryUploader(client);
-  console.log({uploader})  
-
-  let filesFinished = 0;
-  let timeBetweenCalls = 1;
   uploader.on("file-completed", console.table)
 
   await uploader.upload(path)  
