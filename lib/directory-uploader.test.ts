@@ -69,13 +69,16 @@ describe("Upload Directory", () => {
         });
         describe("when the store method hasn't resolved all the promises yet", () => {          
           let frankenPromise;
-          beforeEach(async () => {            
+          let frankenResolve
+          beforeEach(() => {            
+            frankenResolve = jest.fn();
             uploadPromise = client.store.mockImplementation((req) => {
               if (req.name === "test/data/1-file-directory/frankenstein.txt") {
-                frankenPromise = new Promise(jest.fn())
+                frankenPromise = new Promise(frankenResolve)
               }
               return Promise.resolve({});
             });
+            uploadPromise.then(uploaded);
           });
           it("should not have resolved the upload promise yet", () => {
             expect(uploaded).not.toHaveBeenCalled();
