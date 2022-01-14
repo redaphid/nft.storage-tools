@@ -27,7 +27,7 @@ class DirectoryUploader extends EventEmitter {
     console.log({ files });
 
     for (const fileName of files) {
-      this.client.store({
+      const response = await this.client.store({
         name: fileName,
         description:"whatever",
         image: 'hey'
@@ -37,7 +37,7 @@ class DirectoryUploader extends EventEmitter {
         ipnft: "frankenstein-nft",
         url: "frankenstein-url",
       };
-      this.emit("file-completed", fileInfo);
+      this.emit("file-completed", response);
     }
 
     return Promise.resolve();
