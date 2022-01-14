@@ -23,18 +23,20 @@ class DirectoryUploader extends EventEmitter {
     super();
   }
   async upload(directory: string) {
-    const files = await recursive(directory);    
-    for (const fileName of files) {
-      const token = await this.client.store({
-        name: fileName,
-        description:"whatever",
-        image: 'hey'
-      });
-      const event = {...token, fileName};
-      this.emit("file-completed", event);
-    }
-
-    return Promise.resolve();
+    const files = await recursive(directory);
+    const thingsToUpload = files.map((fileName) => {
+      return this.client
+        .store({
+          name: fileName,
+          description: "whatever",
+          image: "hey",
+        })
+        .then((token) => {
+          const event = { ...token, fileName };
+          this.emit("file-completed", event);
+        });
+    });
+    return Promise.all(thingsToUpload);
   }
 }
 export { DirectoryUploader };

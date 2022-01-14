@@ -1,4 +1,8 @@
 import { DirectoryUploader } from "./directory-uploader";
+
+import { promisify } from "util";
+const timeout = promisify(setTimeout);
+
 describe("Upload Directory", () => {
   describe("when created with a nftstorage client", () => {
     let uploader: DirectoryUploader;
@@ -70,15 +74,17 @@ describe("Upload Directory", () => {
         describe("when the store method hasn't resolved all the promises yet", () => {          
           let frankenPromise;
           let frankenResolve
-          beforeEach(() => {            
+          beforeEach(async() => {            
             frankenResolve = jest.fn();
-            uploadPromise = client.store.mockImplementation((req) => {
+            client.store.mockImplementation((req) => {
               if (req.name === "test/data/1-file-directory/frankenstein.txt") {
                 frankenPromise = new Promise(frankenResolve)
+                return frankenPromise
               }
               return Promise.resolve({});
-            });
-            uploadPromise.then(uploaded);
+            });            
+            uploadPromise = uploader.upload("./test/data").then(uploaded);            
+            await timeout(100)
           });
           it("should not have resolved the upload promise yet", () => {
             expect(uploaded).not.toHaveBeenCalled();
