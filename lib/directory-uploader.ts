@@ -1,20 +1,20 @@
 import { EventEmitter } from "events";
 import recursive from "recursive-readdir";
-import { TokenInput} from "nft.storage/dist/src/token";
-import {File} from 'nft.storage'
+import { TokenInput, Token } from "nft.storage/dist/src/token";
+import { File, NFTStorage } from "nft.storage";
 
 interface NFTClient {
-  store(token: TokenInput): Promise<TokenInput>
+  store(token: TokenInput): Promise<Token<TokenInput>>;
 }
 
 interface ProgressInfo {
-  filesFinished: number,
-  filesTotal: number,
-  filePercent: number
-  filesPerSecond: number
+  filesFinished: number;
+  filesTotal: number;
+  filePercent: number;
+  filesPerSecond: number;
 }
 interface NFTResponse {
-  fileName: string,
+  fileName: string;
   ipnft: string;
   url: string;
 }
@@ -24,16 +24,19 @@ class DirectoryUploader extends EventEmitter {
   }
   async upload(directory: string) {
     const files = await recursive(directory);
-    console.log({files})
-    // this.client.store({
-      
-    // })
-    for (const fileName of files){
-      const fileInfo:NFTResponse ={
+    console.log({ files });
+
+    for (const fileName of files) {
+      this.client.store({
+        name: fileName,
+        description:"whatever",
+        image: 'hey'
+      });
+      const fileInfo: NFTResponse = {
         fileName,
-        ipnft:"frankenstein-nft",
-        url:"frankenstein-url",        
-      }
+        ipnft: "frankenstein-nft",
+        url: "frankenstein-url",
+      };
       this.emit("file-completed", fileInfo);
     }
 
