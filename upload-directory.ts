@@ -12,6 +12,8 @@ import dotenv from "dotenv";
 import { Semaphore } from "await-semaphore";
 import recursive from "recursive-readdir";
 import chalk from "chalk";
+
+import {DirectoryUploader} from "./lib/directory-uploader";
 import { NFTStorage, File } from "nft.storage";
 
 const timeout = promisify(setTimeout);
@@ -24,7 +26,8 @@ const storeFiles = async ({ endpoint, token, path, maxConcurrentUploads }) => {
   const image = new File([await readFile(process.cwd() + "/status.js")], "status.js", { type: "image/jpg" });
   const limiter = new Semaphore(maxConcurrentUploads);
   const client = new NFTStorage({ endpoint, token });
-
+  const uploader = new DirectoryUploader(client);
+  console.log({uploader})
   const files = await recursive(path);
 
   let filesFinished = 0;
